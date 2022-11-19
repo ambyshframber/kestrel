@@ -4,7 +4,7 @@ As with any kernel on the RPi,
 _pijFORTHos_ boots from an SD card
 in the built-in SD card slot.
 Basic instructions for preparing your SD card
-are on the [home page](/README.md).
+are on the [home page](/pijFORTHos/README.md).
 A more detailed description of the RPi boot process
 is available on the [elinux.org wiki](http://elinux.org/RPi_Software#Overview).
 

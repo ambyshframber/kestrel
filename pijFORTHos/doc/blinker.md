@@ -10,7 +10,7 @@ generating [Morse code](http://en.wikipedia.org/wiki/Morse_code).
 
 This code can be entered
 (or copy-and-pasted)
-directly on the [_pijFORTHos_](/README.md) serial console.
+directly on the [_pijFORTHos_](/pijFORTHos/README.md) serial console.
 I recommend keeping your FORTH code
 in a local file on your host computer,
 then copy-and-pasting it into a serial terminal session

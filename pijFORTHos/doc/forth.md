@@ -2,14 +2,14 @@
 
 Each dialect of FORTH has its own definitions.
 Development in FORTH involves extending the vocabulary with words specific to your application.
-Most pre-defined words in [_pijFORTHos_](/README.md) follow traditional standards and conventions,
+Most pre-defined words in [_pijFORTHos_](/pijFORTHos/README.md) follow traditional standards and conventions,
 but see the tables below for details.
 
 
 ## Built-in Definitions
 
-These definitions are present in [_pijFORTHos_](/README.md)
-on initial [boot](/doc/bootload.md).
+These definitions are present in [_pijFORTHos_](/pijFORTHos/README.md)
+on initial [boot](/pijFORTHos/doc/bootload.md).
 
 
 ### Built-in FORTH Variables

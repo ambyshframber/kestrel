@@ -22,7 +22,7 @@ See the `/firmware/` directory for local copies used in the build process.
 _pijFORTHos_ is a bare-metal FORTH interpreter for the [Raspberry Pi](https://en.wikipedia.org/wiki/Raspberry_Pi) (original, Model B).
 It follows the general strategy given by David Welch's
 [excellent examples](https://github.com/dwelch67/raspberrypi).
-A simple [bootloader](/doc/bootload.md#bootloader) is built in,
+A simple [bootloader](/pijFORTHos/doc/bootload.md#bootloader) is built in,
 supporting XMODEM uploads of new bare-metal kernel images.
 
 The interpreter uses the RPi serial console (115200 baud, 8 data bits, no parity, 1 stop bit).
@@ -43,7 +43,7 @@ If you are building on the RPi, just type:
 
 If you're cross-compiling, type:
 
-    $ CROSS=arm-linux-gnueabi- clean all
+    $ CROSS=arm-linux-gnueabi- make clean all
 
 ...where CROSS corresponds to the ARM cross-compiler
 toolchain you have installed.
@@ -102,11 +102,11 @@ You should see something like:
     00008060  1e ff 2f e1 00 00 d0 e5  1e ff 2f e1 0e 00 a0 e1  |../......./.....|
     00008070  1e ff 2f e1 10 ff 2f e1  ff 5f 2d e9 f8 07 b1 e8  |../.../.._-.....|
 
-For something a little more interesting, try the [GPIO Morse Code](/doc/blinker.md) tutorial.
+For something a little more interesting, try the [GPIO Morse Code](doc/blinker.md) tutorial.
 
-The [FORTH reference](/doc/forth.md) page describes the FORTH words available in _pijFORTHos_.
+The [FORTH reference](doc/forth.md) page describes the FORTH words available in _pijFORTHos_.
 
-The [Bootloader](/doc/bootload.md) page describes the memory layout and boot process.
+The [Bootloader](doc/bootload.md) page describes the memory layout and boot process.
 
 There is a persistent thread on the Rasberry Pi forums with a useful collection of
 [bare-metal resources](http://www.raspberrypi.org/forums/viewtopic.php?f=72&t=72260),
