@@ -1,3 +1,0 @@
-(
-    timer access for pijFORTHos
-)

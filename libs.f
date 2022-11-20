@@ -121,6 +121,22 @@ HIDE WELCOME
     BASE !
 ;
 
+: STRCONST
+    WORD CREATE \ get the next word and create a new dictonary entry
+    
+;
+
+: L* ( ah al b -- abh abl )
+    (
+        we need
+        - al b O*
+        - ah b *
+    )
+    TUCK O* ( ah b albh albl )
+    2SWAP * ( albh albl ahb )
+    ROT + SWAP
+;
+
 BASESAVE HEX
 
 20000000 CONSTANT MMIOBASE \ mmio base address
@@ -153,7 +169,7 @@ GPIOBASE 34 + CONSTANT GPIOLEVBASE
 
 DECIMAL
 
-: SETGPIOFN \ ( pin fn -- )
+: SETGPIOFN ( pin fn -- )
     SWAP ( fn pin )
     \ 10 pins per fn select reg, 3 bits per pin, 4 bytes per reg
     10 /MOD ( fn ofs/3 reg )
@@ -168,6 +184,16 @@ DECIMAL
 : SETGPIOIN ( pin -- ) GPIO_INPUT SETGPIOFN ;
 : SETGPIOOUT ( pin -- ) GPIO_OUTPUT SETGPIOFN ;
 
+: GETGPIOFN ( pin -- fn )
+    10 /MOD ( ofs/3 reg )
+    4 * GPIOBASE + @ SWAP 3 * ( regv ofs )
+    GPIO_FNMASK OVER LSHIFT ( regv ofs mask )
+    ROT AND ( ofs fnshfted )
+    SWAP RSHIFT
+;
+: CKGPIOIN ( pin -- is_input ) GETGPIOFN GPIO_INPUT = ;
+: CKGPIOOUT ( pin -- is_output ) GETGPIOFN GPIO_OUTPUT = ; 
+
 : SETGPIO ( pin -- )
     \ 32 pins per register, 1 bit per pin, 4 bytes per reg
     32 /MOD ( ofs reg )
@@ -180,13 +206,13 @@ DECIMAL
     4 * GPIOCLRBASE + 1 ROT LSHIFT ( r_addr bit )
     SWAP !
 ;
-: WRITEGPIO ( pin val -- )
-    IF SETGPIO ELSE CLRGPIO THEN
+: WRITEGPIO ( val pin -- )
+    SWAP IF SETGPIO ELSE CLRGPIO THEN
 ;
 
 : READGPIO ( pin -- state )
     \ state is 0 for low, non-zero for high
-    32 /MOD ( ofs reg )    
+    32 /MOD ( ofs reg )
     4 * GPIOLEVBASE + @ 1 ROT LSHIFT AND
 ;
 

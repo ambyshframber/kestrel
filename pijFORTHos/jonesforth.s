@@ -462,6 +462,14 @@ defcode "*",1,,MUL
         PUSHDSP r2
         NEXT
 
+@ L* ( a b -- abh abl )
+defcode "O*"2,,OVERFLOWINGMUL
+        POP2 DSP
+        umull r3, r2, r1, r0
+        PUSHDSP r2
+        PUSHDSP r3
+        NEXT
+
 @ / ( n m -- q ) integer division quotient (see /MOD)
 @ : / /MOD SWAP DROP ;
 defcode "/",1,,DIV

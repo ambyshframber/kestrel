@@ -37,6 +37,9 @@ DECIMAL
     LSHIFT OR ( reg_addr value )
     SWAP !
 ;
+: SETGPIOIN ( pin -- ) GPIO_INPUT SETGPIOFN ;
+: SETGPIOOUT ( pin -- ) GPIO_OUTPUT SETGPIOFN ;
+
 : GETGPIOFN ( pin -- fn )
     10 /MOD ( ofs/3 reg )
     4 * GPIOBASE + @ SWAP 3 * ( regv ofs )
@@ -44,9 +47,6 @@ DECIMAL
     ROT AND ( ofs fnshfted )
     SWAP RSHIFT
 ;
-: SETGPIOIN ( pin -- ) GPIO_INPUT SETGPIOFN ;
-: SETGPIOOUT ( pin -- ) GPIO_OUTPUT SETGPIOFN ;
-
 : CKGPIOIN ( pin -- is_input ) GETGPIOFN GPIO_INPUT = ;
 : CKGPIOOUT ( pin -- is_output ) GETGPIOFN GPIO_OUTPUT = ; 
 
@@ -62,8 +62,8 @@ DECIMAL
     4 * GPIOCLRBASE + 1 ROT LSHIFT ( r_addr bit )
     SWAP !
 ;
-: WRITEGPIO ( pin val -- )
-    IF SETGPIO ELSE CLRGPIO THEN
+: WRITEGPIO ( val pin -- )
+    SWAP IF SETGPIO ELSE CLRGPIO THEN
 ;
 
 : READGPIO ( pin -- state )
