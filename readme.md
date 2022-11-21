@@ -10,13 +10,13 @@ pijFORTHos has its own instructions for building and running. i've left those pr
 
 to send code to the pi, make sure to turn screen slowpaste or an equivalent on. pasting instantly overruns a buffer somewhere and causes characters to get dropped.
 
-[slurp.sh] is a shell script that grabs jonesforth.f, kestrel.f and gpio.f and feeds them into a screen session named "forth". the utility of this is obvious.
+[slurp.sh](slurp.sh) is a shell script that grabs jonesforth.f, kestrel.f and gpio.f and feeds them into a screen session named "forth". the utility of this is obvious.
 
 ## kestrel functionality
 
-as it stands, kestrel only has basic gpio interfacing. everything else is a work in progress.
+as it stands, kestrel only has basic gpio and timer interfacing. everything else is a work in progress.
 
-the only modification made to the assembly source is the addition of `O*`, which provides overflowing multiplication.
+the only modification made to the assembly source is the addition of some long arithmetic operations that operate on double width numbers.
 
 ### gpio
 
@@ -31,3 +31,13 @@ SETGPIO and CLRGPIO set and clear the pins, respectively. UB will occur on pin n
 READGPIO returns 0 if a pin is low, and any nonzero number if it's high. again, UB on pins > 54 and pins not set to input.
 
 to check pin functions, you can use GETGPIOFN and CKGPIO{IN, OUT}.
+
+### timer
+
+[timer.f](kestrel/timer.f) contains functions for talking to the system timer.
+
+the BCM2835 has 2 timers: the ARM timer and the system timer. the pijFORTHos morse code demo uses the ARM timer. however, that timer overflows every 71 minutes. the system timer is 64 bit, and it overflows after around 60 thousand years.
+
+the time words here all use 32 bit values, because time is meaningless as a standalone value. you almost always want "time since" or "time until" or "is it later than this time"; you never do arithmetic on the time itself. it is for this reason that Rust (for example) models Instant as opaque. however, i have exposed the full 64 bits just in case you have a system that needs to wait more than 71 minutes.
+
+use TIME@ to get the full time, use TIMEL@ to get the lower 32 bits. use WAITUNTIL to wait until a specified instant, use WAITFOR to wait for a specified amount of microseconds. i recommend WAITFOR for the reasons given above. use SINCE to get the duration since a given instant.
